@@ -9,6 +9,11 @@
       >
       </el-table-column>
       <el-table-column
+        prop="parent.name"
+        label="上级分类"
+      >
+      </el-table-column>
+      <el-table-column
         prop="name"
         label="分类名称"
       >
@@ -25,7 +30,7 @@
             size="small"
           >编辑</el-button>
           <el-button
-            @click="delete_Opt(scope.row)"
+            @click="remove(scope.row)"
             type="text"
             size="small"
           >删除</el-button>
@@ -44,16 +49,16 @@ export default {
   },
   methods: {
     async fetch() {
-        const res = await this.$http.get("/categories");
+        const res = await this.$http.get("/rest/categories");
         this.categories = res.data;
     },
-    delete_Opt(row){
+    remove(row){
         this.$confirm(`此操作将删除分类${row.name}`, '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
         }).then(async() => {
-            const res = await this.$http.delete(`/categories/${row._id}`);
+            const res = await this.$http.delete(`/rest/categories/${row._id}`);
             if(res.data.status === 'succeed'){
                 this.$message({
                 type: 'success',
