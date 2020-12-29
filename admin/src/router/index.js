@@ -5,6 +5,9 @@ import Main from '../views/Main.vue'
 import CategoriesEdit from '../views/categoriesEdit.vue'
 import CategoriesList from '../views/categoriesList.vue'
 
+import ItemsEdit from '../views/itemsEdit.vue'
+import ItemsList from '../views/itemsList.vue'
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -17,7 +20,11 @@ const routes = [
       {path:'categories/create', component:CategoriesEdit},
       {path:'categories/list', component:CategoriesList},
       // props:true,允许传参
-      {path:'categories/edit/:id', component:CategoriesEdit, props:true}
+      {path:'categories/edit/:id', component:CategoriesEdit, props:true},
+
+      {path:'items/create', component:ItemsEdit},
+      {path:'items/list', component:ItemsList},
+      {path:'items/edit/:id', component:ItemsEdit, props:true}
     ]
   }
 ]

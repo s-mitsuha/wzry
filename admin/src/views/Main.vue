@@ -5,15 +5,21 @@
     <!-- 添加路由属性 -->
     <el-menu router :default-openeds="['1', '3']">
       <el-submenu index="1">
-        <template slot="title"><i class="el-icon-message"></i>分类管理</template>
+        <template slot="title"><i class="el-icon-message"></i>内容管理</template>
         <el-menu-item-group>
-          <template slot="title">分组一</template>
+          <template slot="title">分类</template>
           <!-- 路由路径一定要加'/' -->
           <!-- 给index赋值实现路由跳转 -->
           <el-menu-item index="/categories/create">新建分类</el-menu-item>
           <el-menu-item index="/categories/list">分类列表</el-menu-item>
         </el-menu-item-group>
-        
+        <el-menu-item-group>
+          <template slot="title">物品</template>
+          <!-- 路由路径一定要加'/' -->
+          <!-- 给index赋值实现路由跳转 -->
+          <el-menu-item index="/items/create">新建物品</el-menu-item>
+          <el-menu-item index="/items/list">物品列表</el-menu-item>
+        </el-menu-item-group>
       </el-submenu>
     </el-menu>
   </el-aside>

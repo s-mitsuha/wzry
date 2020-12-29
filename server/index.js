@@ -5,6 +5,8 @@ const app = express()
 app.use(require('cors')())
 //加入中间件，将请求参数转换成json
 app.use(express.json())
+// 把/upload注册为静态资源
+app.use('/upload',express.static(__dirname+'/upload'))
 
 //引用router/index并执行他，同时把app传给他
 require('./routes/admin')(app)

@@ -53,5 +53,19 @@ module.exports = app =>{
         req.model = require(`../../models/${modelName}`)
         next()
     },router)
+
+    // multer上传文件的中间件
+    const multer = require('multer')
+    // 执行multer并传一个路径参数给他
+    const upload = multer({
+        dest: __dirname+'/../../upload'
+    })
+
+    // single()表示上传单个文件，参数是接收的参数名
+    app.post('/admin/api/upload',upload.single('file'),async(req,res)=>{
+        const file = req.file
+        file.url = 'http://localhost:3000/upload/'+file.filename
+        res.send(file)
+    })
 }
 
