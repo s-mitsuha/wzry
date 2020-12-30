@@ -1,7 +1,7 @@
 <template>
-  <div content="items-list">
-    <h1>物品列表</h1>
-    <el-table :data="items">
+  <div content="heroes-list">
+    <h1>英雄列表</h1>
+    <el-table :data="heroes">
       <el-table-column
         prop="_id"
         label="ID"
@@ -10,15 +10,14 @@
       </el-table-column>
       <el-table-column
         prop="name"
-        label="物品名称"
+        label="英雄名称"
       >
       </el-table-column>
-      <!-- 自定义列 -->
       <el-table-column
         v-slot="scope"
-        label="图标"
+        label="头像"
       >
-        <img :src="scope.row.icon" style="height: 3rem"/>
+        <img :src="scope.row.avatar"  style="height: 3rem" />
       </el-table-column>
       <el-table-column
         fixed="right"
@@ -27,7 +26,7 @@
       >
         <template v-slot="scope">
           <el-button
-            @click="$router.push(`/items/edit/${scope.row._id}`)"
+            @click="$router.push(`/heroes/edit/${scope.row._id}`)"
             type="text"
             size="small"
           >编辑</el-button>
@@ -46,13 +45,13 @@
 export default {
   data() {
     return {
-      items: [],
+      heroes: [],
     };
   },
   methods: {
     async fetch() {
-        const res = await this.$http.get("/rest/items");
-        this.items = res.data;
+        const res = await this.$http.get("/rest/heroes");
+        this.heroes = res.data;
     },
     remove(row){
         this.$confirm(`此操作将删除分类${row.name}`, '提示', {
@@ -60,7 +59,7 @@ export default {
           cancelButtonText: '取消',
           type: 'warning'
         }).then(async() => {
-            const res = await this.$http.delete(`/rest/items/${row._id}`);
+            const res = await this.$http.delete(`/rest/heroes/${row._id}`);
             if(res.data.status === 'succeed'){
                 this.$message({
                 type: 'success',

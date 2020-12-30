@@ -20,6 +20,13 @@
           <el-menu-item index="/items/create">新建物品</el-menu-item>
           <el-menu-item index="/items/list">物品列表</el-menu-item>
         </el-menu-item-group>
+        <el-menu-item-group>
+          <template slot="title">英雄</template>
+          <!-- 路由路径一定要加'/' -->
+          <!-- 给index赋值实现路由跳转 -->
+          <el-menu-item index="/heroes/create">添加英雄</el-menu-item>
+          <el-menu-item index="/heroes/list">英雄列表</el-menu-item>
+        </el-menu-item-group>
       </el-submenu>
     </el-menu>
   </el-aside>
