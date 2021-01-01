@@ -32,9 +32,12 @@ module.exports = app =>{
         const modelName = req.model.modelName
         if(modelName === 'Category'){
             queryOptions.populate = 'parent'
+        }else if(modelName === 'Hero'){
+            queryOptions.populate = 'categories'
         }
         // setOptions({populate:'parent'})添加条件
         const  model = await  req.model.find().setOptions(queryOptions).limit(100)
+
         res.send( model)
     })
     router.get('/:id',async(req,res)=>{

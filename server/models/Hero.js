@@ -1,9 +1,33 @@
 const mongoose = require('mongoose')
-//分类模型
+
 const schema = new mongoose.Schema({
     name: {type: String},
-    avatar: {type: String}
+    avatar: {type: String},
+    title: {type: String},
+    categories:[{type: mongoose.SchemaTypes.ObjectId,ref: "Category"}],
+    scores:{
+        difficult:{type:String},
+        skill:{type:String},
+        attack:{type:String},
+        survive:{type:String}
+    },
+    skin:{type:String},
+    skills:[
+        {
+            skill:{
+                name:{type:String},
+                icon:{type:String},
+                cooling:{type:String},
+                cost:{type:String},
+                decoration:{type:String}
+            },
+            tip:{type:String}
+        }
+    ],
+    tailWindItems:[{type:mongoose.SchemaTypes.ObjectId,ref:"Item"}],
+    headWindItems:[{type:mongoose.SchemaTypes.ObjectId,ref:"Item"}],
+    usageTip:{type:String},
+    battleTip:{type:String},
+    teamTip:{type:String}
 })
-
-//导出模型并命名Category
 module.exports = mongoose.model('Hero',schema)

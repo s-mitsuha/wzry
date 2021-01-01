@@ -14,6 +14,11 @@
       >
       </el-table-column>
       <el-table-column
+        prop="title"
+        label="称号"
+      >
+      </el-table-column>
+      <el-table-column
         v-slot="scope"
         label="头像"
       >
