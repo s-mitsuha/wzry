@@ -15,17 +15,28 @@
         </el-menu-item-group>
         <el-menu-item-group>
           <template slot="title">物品</template>
-          <!-- 路由路径一定要加'/' -->
-          <!-- 给index赋值实现路由跳转 -->
           <el-menu-item index="/items/create">新建物品</el-menu-item>
           <el-menu-item index="/items/list">物品列表</el-menu-item>
         </el-menu-item-group>
         <el-menu-item-group>
           <template slot="title">英雄</template>
-          <!-- 路由路径一定要加'/' -->
-          <!-- 给index赋值实现路由跳转 -->
           <el-menu-item index="/heroes/create">添加英雄</el-menu-item>
           <el-menu-item index="/heroes/list">英雄列表</el-menu-item>
+        </el-menu-item-group>
+        <el-menu-item-group>
+          <template slot="title">文章</template>
+          <el-menu-item index="/articles/create">新建文章</el-menu-item>
+          <el-menu-item index="/articles/list">文章列表</el-menu-item>
+        </el-menu-item-group>
+        <el-menu-item-group>
+          <template slot="title">广告位</template>
+          <el-menu-item index="/ads/create">新建广告位</el-menu-item>
+          <el-menu-item index="/ads/list">广告位列表</el-menu-item>
+        </el-menu-item-group>
+        <el-menu-item-group>
+          <template slot="title">管理员</template>
+          <el-menu-item index="/admin_users/create">添加管理员</el-menu-item>
+          <el-menu-item index="/admin_users/list">管理员列表</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
     </el-menu>

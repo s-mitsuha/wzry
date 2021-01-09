@@ -8,6 +8,8 @@ import './plugins/element.js'
 import http from './http.js'
 Vue.prototype.$http = http
 
+import '../src/style.css'
+
 Vue.config.productionTip = false
 
 new Vue({

@@ -32,7 +32,7 @@ module.exports = app =>{
         const modelName = req.model.modelName
         if(modelName === 'Category'){
             queryOptions.populate = 'parent'
-        }else if(modelName === 'Hero'){
+        }else if(modelName === 'Article'){
             queryOptions.populate = 'categories'
         }
         // setOptions({populate:'parent'})添加条件
@@ -69,6 +69,36 @@ module.exports = app =>{
         const file = req.file
         file.url = 'http://localhost:3000/upload/'+file.filename
         res.send(file)
+    })
+
+    app.post('/admin/api/login',async(req,res)=>{
+        // 解构赋值
+        const {username,password} = req.body
+        //查用户
+        //findOne(Opt)根据条件查找一个用户
+        //select(col)将对应字段也查找出来
+        const user = await require('../../models/AdminUser').findOne({username}).select('password')
+
+        if(!user){
+            console.log('用户不存在')
+            res.status(422).send({
+                message:'用户不存在'
+            })
+        }
+        //对密码
+        // compare(password,hash)比对明文密文是否一致
+        const isvalid = require('bcrypt').compareSync(password,user.password)
+        if(!isvalid){
+            console.log('密码不正确')
+            res.status(422).send({
+                message:'密码不正确'
+            })
+        }
+        //返token  
+        const jwt = require('jsonwebtoken')
+        // jwt.sign(唯一的字段,密钥)
+        const token = jwt.sign({id:user._id},app.get('secret'))
+        res.send(token)
     })
 }
 
