@@ -1,5 +1,9 @@
 module.exports = app =>{
     const express = require('express')
+    //生成token的插件
+    const jwt = require('jsonwebtoken')
+    const assert = require('http-assert')
+    const AdminUser = require('../../models/AdminUser')
     //新建子路由
     const router = express.Router({
         // 合并路由参数
@@ -24,7 +28,20 @@ module.exports = app =>{
         })
     })
 
-    router.get('/',async(req,res)=>{
+    router.get('/',async(req,res,next)=>{
+        // 拿到authorization，如果不存在就设为空
+        //以空格为界限分割字符串
+        //pop()取数组最后一个元素
+        const token = (req.headers.authorization || ' ').split(' ').pop()
+        assert(token, 401 ,'请先登录')
+        // 把token解码成{id:,iat:}的形式
+        const {id} = jwt.verify(token,app.get('secret'))
+        assert(id, 401 ,'请先登录')
+        const user = AdminUser.findById(id)
+        assert(user, 401 ,'请先登录')
+        
+        await next()
+    },async(req,res)=>{
         //查询分类，限100条
         // populate 关联查询，把关联的值查出来
         const queryOptions = {}
@@ -77,28 +94,22 @@ module.exports = app =>{
         //查用户
         //findOne(Opt)根据条件查找一个用户
         //select(col)将对应字段也查找出来
-        const user = await require('../../models/AdminUser').findOne({username}).select('password')
-
-        if(!user){
-            console.log('用户不存在')
-            res.status(422).send({
-                message:'用户不存在'
-            })
-        }
+        const user = await AdminUser.findOne({username}).select('+password')
+        assert(user, 422 ,'用户不存在')
         //对密码
         // compare(password,hash)比对明文密文是否一致
         const isvalid = require('bcrypt').compareSync(password,user.password)
-        if(!isvalid){
-            console.log('密码不正确')
-            res.status(422).send({
-                message:'密码不正确'
-            })
-        }
-        //返token  
-        const jwt = require('jsonwebtoken')
+        assert(isvalid, 422 ,'密码错误')
+        //返token       
         // jwt.sign(唯一的字段,密钥)
         const token = jwt.sign({id:user._id},app.get('secret'))
-        res.send(token)
+        res.send({token:token,user:username})
+    })
+
+    app.use((err,req,res,next)=>{
+        if(err.status){
+            res.status(err.status).send({message:err.message})
+        }
     })
 }
 

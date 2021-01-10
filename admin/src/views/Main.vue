@@ -3,7 +3,7 @@
      <el-container style="height: 100vh; border: 1px solid #eee">
   <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
     <!-- 添加路由属性 -->
-    <el-menu router :default-openeds="['1', '3']">
+    <el-menu router :default-openeds="['1']" active-text-color="#409EFF" unique-opened :default-active="$route.path" >
       <el-submenu index="1">
         <template slot="title"><i class="el-icon-message"></i>内容管理</template>
         <el-menu-item-group>
@@ -23,6 +23,9 @@
           <el-menu-item index="/heroes/create">添加英雄</el-menu-item>
           <el-menu-item index="/heroes/list">英雄列表</el-menu-item>
         </el-menu-item-group>
+      </el-submenu>
+      <el-submenu index="2">
+        <template slot="title"><i class="el-icon-message"></i>运营管理</template>
         <el-menu-item-group>
           <template slot="title">文章</template>
           <el-menu-item index="/articles/create">新建文章</el-menu-item>
@@ -33,6 +36,9 @@
           <el-menu-item index="/ads/create">新建广告位</el-menu-item>
           <el-menu-item index="/ads/list">广告位列表</el-menu-item>
         </el-menu-item-group>
+      </el-submenu>
+      <el-submenu index="3">
+        <template slot="title"><i class="el-icon-message"></i>系统管理</template>
         <el-menu-item-group>
           <template slot="title">管理员</template>
           <el-menu-item index="/admin_users/create">添加管理员</el-menu-item>
@@ -52,19 +58,11 @@
           <el-dropdown-item>删除</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
-      <span>王小虎</span>
+      <span>{{username}}</span>
     </el-header>
     
     <el-main>
       <router-view></router-view>
-      <!-- <el-table :data="tableData">
-        <el-table-column prop="date" label="日期" width="140">
-        </el-table-column>
-        <el-table-column prop="name" label="姓名" width="120">
-        </el-table-column>
-        <el-table-column prop="address" label="地址">
-        </el-table-column>
-      </el-table> -->
     </el-main>
   </el-container>
 </el-container>
@@ -75,11 +73,16 @@
 export default {
  data() {
    return{
-
+     username:'王小虎'
    }
  },
  methods: {
 
+ },
+ async created(){
+   if(sessionStorage.getItem('user')){
+     this.username = await sessionStorage.getItem('user')
+   }
  },
  components: {
 

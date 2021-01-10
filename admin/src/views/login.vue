@@ -33,8 +33,9 @@ export default {
         //  localStorage存到本地存储，浏览器关闭再打开依旧存在
         //  localStorage.setItem('token',res.data)
         // sessionStorage存到会话，浏览器关闭时自动清空
-        sessionStorage.setItem('token',res.data)
-        
+        sessionStorage.setItem('token',res.data.token)
+        sessionStorage.setItem('user',res.data.user)
+        this.$router.push('/') 
      }
  },
  components: {

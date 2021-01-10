@@ -34,6 +34,8 @@ const routes = [
     path: '/',
     name: 'Main',
     component: Main,
+    //重定向
+    redirect: 'admin_users/list',
     // 为Main组件添加子路由
     children:[
       {path:'categories/create', component:CategoriesEdit},
