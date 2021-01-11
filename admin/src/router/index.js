@@ -28,7 +28,9 @@ const routes = [
   {
     path:'/login',
     name:'Login',
-    component:Login
+    component:Login,
+    // 添加一个属性，标记login为公共访问页
+    meta: {isPublic: true}
   },
   {
     path: '/',
@@ -68,6 +70,13 @@ const routes = [
 
 const router = new VueRouter({
   routes
+})
+
+// 路由守卫，前端权限校验
+router.beforeEach((to, from, next) => {
+  if (!to.meta.isPublic && !sessionStorage.getItem('token')) next('/login')
+  // 如果用户未能验证身份，则 `next` 会被调用两次
+  next()
 })
 
 export default router

@@ -3,7 +3,6 @@ module.exports = app =>{
     //生成token的插件
     const jwt = require('jsonwebtoken')
     const assert = require('http-assert')
-    const AdminUser = require('../../models/AdminUser')
     //新建子路由
     const router = express.Router({
         // 合并路由参数
@@ -28,20 +27,7 @@ module.exports = app =>{
         })
     })
 
-    router.get('/',async(req,res,next)=>{
-        // 拿到authorization，如果不存在就设为空
-        //以空格为界限分割字符串
-        //pop()取数组最后一个元素
-        const token = (req.headers.authorization || ' ').split(' ').pop()
-        assert(token, 401 ,'请先登录')
-        // 把token解码成{id:,iat:}的形式
-        const {id} = jwt.verify(token,app.get('secret'))
-        assert(id, 401 ,'请先登录')
-        const user = AdminUser.findById(id)
-        assert(user, 401 ,'请先登录')
-        
-        await next()
-    },async(req,res)=>{
+    router.get('/',async(req,res)=>{
         //查询分类，限100条
         // populate 关联查询，把关联的值查出来
         const queryOptions = {}
@@ -62,17 +48,16 @@ module.exports = app =>{
         res.send( model)
     })
 
+    //权限校验中间件
+    const authMiddleware = require('../../Middlewares/auth')
+    //资源中间件
+    const resourseMiddleware = require('../../Middlewares/resourse')
     //将路由挂在app
     // 添加中间件，以路由中的参数找到对应模型，挂载到请求参数列表中
     // next参数指明后续操作，
     // 改动路由添加/rest 以便区分后续添加的路由，这里rest开头的都是使用通用接口
     // 这里改写成CRUD增删改查通用接口
-    app.use('/admin/api/rest/:resourse',async(req,res,next)=>{
-        // inflection，处理单词，转换成单数形式，并首字母大写
-        const modelName = require('inflection').classify(req.params.resourse)
-        req.model = require(`../../models/${modelName}`)
-        next()
-    },router)
+    app.use('/admin/api/rest/:resourse',authMiddleware() ,resourseMiddleware(),router)
 
     // multer上传文件的中间件
     const multer = require('multer')
@@ -82,7 +67,7 @@ module.exports = app =>{
     })
 
     // single()表示上传单个文件，参数是接收的参数名
-    app.post('/admin/api/upload',upload.single('file'),async(req,res)=>{
+    app.post('/admin/api/upload',authMiddleware() ,upload.single('file'),async(req,res)=>{
         const file = req.file
         file.url = 'http://localhost:3000/upload/'+file.filename
         res.send(file)
@@ -94,7 +79,7 @@ module.exports = app =>{
         //查用户
         //findOne(Opt)根据条件查找一个用户
         //select(col)将对应字段也查找出来
-        const user = await AdminUser.findOne({username}).select('+password')
+        const user = await require('../../models/AdminUser').findOne({username}).select('password')
         assert(user, 422 ,'用户不存在')
         //对密码
         // compare(password,hash)比对明文密文是否一致
@@ -106,6 +91,7 @@ module.exports = app =>{
         res.send({token:token,user:username})
     })
 
+    //错误处理函数
     app.use((err,req,res,next)=>{
         if(err.status){
             res.status(err.status).send({message:err.message})

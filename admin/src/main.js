@@ -8,11 +8,29 @@ import './plugins/element.js'
 import http from './http.js'
 Vue.prototype.$http = http
 
+// 混入公共的vue属性
+Vue.mixin({
+  data(){
+    return{
+
+    }
+  },
+  computed:{
+    uploadUrl(){
+      return this.$http.defaults.baseURL+'/upload'
+    }
+  },
+  methods:{
+    setAuthorization(){
+      return {Authorization: `Bearer ${sessionStorage.getItem('token') || ''}`}
+    }
+  }
+})
 import '../src/style.css'
 
 Vue.config.productionTip = false
 
 new Vue({
-  router,
+  router,  
   render: h => h(App)
 }).$mount('#app')

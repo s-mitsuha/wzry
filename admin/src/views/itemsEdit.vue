@@ -14,7 +14,8 @@
         <!--on-success绑定上传成功后的执行函数  -->
         <el-upload
           class="avatar-uploader"
-          :action="$http.defaults.baseURL+'/upload'"
+          :action="uploadUrl"
+          :headers="setAuthorization()"
           :show-file-list="false"
           :on-success="afterUpload"
         >
