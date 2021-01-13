@@ -23,7 +23,8 @@
           </el-form-item>
           <el-form-item label="图片" style="margin: 10px 0px;">
             <el-upload class="avatar-uploader"
-              :action="$http.defaults.baseURL+'/upload'"
+              :action="uploadUrl"
+              :headers="setAuthorization()"
               :show-file-list="false"
               :on-success="(res)=>{$set(item,'img',res.url)}"
             >

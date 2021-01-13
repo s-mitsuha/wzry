@@ -1,4 +1,5 @@
 module.exports = () =>{
+    // 权限校验中间件
     // 返回一个函数
     return async(req,res,next)=>{
         const assert = require('http-assert')

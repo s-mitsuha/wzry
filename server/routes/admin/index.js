@@ -91,6 +91,11 @@ module.exports = app =>{
         res.send({token:token,user:username})
     })
 
+    app.use('/admin/api/register',async(req,res)=>{
+        const  model = await require('../../models/AdminUser').create(req.body)
+        res.send( model)
+    })
+
     //错误处理函数
     app.use((err,req,res,next)=>{
         if(err.status){

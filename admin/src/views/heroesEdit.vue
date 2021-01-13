@@ -25,7 +25,8 @@
             <!--on-success绑定上传成功后的执行函数  -->
             <el-upload
               class="avatar-uploader"
-              :action="$http.defaults.baseURL+'/upload'"
+              :action="uploadUrl"
+              :headers="setAuthorization()"
               :show-file-list="false"
               :on-success="afterUpload"
             >
@@ -138,7 +139,8 @@
             <el-form-item label="图标">
               <el-upload
               class="avatar-uploader"
-              :action="$http.defaults.baseURL+'/upload'"
+              :action="uploadUrl"
+              :headers="setAuthorization()"
               :show-file-list="false"
               :on-success="(res)=>{$set(item.skill,'icon',res.url)}"
             >

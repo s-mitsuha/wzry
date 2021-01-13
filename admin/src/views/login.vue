@@ -6,12 +6,13 @@
                  <el-input v-model="admin_user.username"></el-input>
              </el-form-item>
              <el-form-item label="密码">
-                 <el-input v-model="admin_user.password"></el-input>
+                 <el-input v-model="admin_user.password" show-password></el-input>
              </el-form-item>
              <el-form-item >
                  <el-button type="primary" @click.native.prevent="login">登录</el-button>
-                 <el-button >取消</el-button>
+                 <el-button @click.native.prevent="cancel()">取消</el-button>
              </el-form-item>
+              <router-link tag="div" to="/register">没有账号？请先注册</router-link>
          </el-form>
      </el-card>
  </div>
@@ -36,7 +37,8 @@ export default {
         sessionStorage.setItem('token',res.data.token)
         sessionStorage.setItem('user',res.data.user)
         this.$router.push('/') 
-     }
+     },
+     cancel(){}
  },
  components: {
 
