@@ -28,14 +28,14 @@
           @image-added="handleImageAdded"
         ></vue-editor>
       </el-form-item>
-      <el-form-item label="日期">
+      <!-- <el-form-item label="日期">
         <el-date-picker
           v-model="model.date"
           type="date"
           placeholder="选择日期"
         >
         </el-date-picker>
-      </el-form-item>
+      </el-form-item> -->
       <el-form-item>
         <el-button
           type="primary"

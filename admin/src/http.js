@@ -4,7 +4,9 @@ import router from './router'
 
 const http = axios.create({
     //设置基本路径
-    baseURL:"http://localhost:3000/admin/api"
+    // 设置  发布路径 或 开发路径
+    baseURL: process.env.VUE_API_APP_URL || '/admin/api'
+    // baseURL:"http://localhost:3000/admin/api"
 })
 
 //添加一个请求拦截器

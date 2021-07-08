@@ -1,0 +1,256 @@
+@import './variable';
+*{
+    //限制盒子宽度，如果增加盒子边距只会挤压内容不会撑开
+    box-sizing: border-box;
+}
+
+
+html{
+    body{
+        // 去掉外边距
+        margin: 0;
+        // 设置字体基本大小
+        font-size: 13px;
+        // 行高设置1.2倍
+        line-height: 1.2em;
+        //  Arial是Windows上默认的sans-serif字体..Helvetica是默认的Mac上的无衬线字体，
+        font-family: Arial, Helvetica, sans-serif;
+        //对字体进行抗锯齿渲染可以使字体看起来会更清晰舒服。
+        -webkit-font-smoothing: antialiased;
+        background-color: #ededed;
+        a{
+            //取消高亮
+            outline: none;
+        }
+    }
+}
+
+// 字体，背景，边框颜色
+@each $colorKey,$color in $colors {
+    .text-#{$colorKey} {color: $color;}
+    .bg-#{$colorKey} {background-color: $color;}
+    .border-#{$colorKey} {border: 1px solid $color;}
+};
+
+
+// 内，外边距
+@each $typeKey,$type in $space-type {
+    @each $levelKey,$level in $space-level {
+        .#{$typeKey}-#{$levelKey}{
+            #{$type}: $level*$base-space-level;
+        }
+
+        .#{$typeKey}x-#{$levelKey}{
+            #{$type}-right: $level*$base-space-level;
+            #{$type}-left: $level*$base-space-level;
+        }
+
+        .#{$typeKey}y-#{$levelKey}{
+            #{$type}-top: $level*$base-space-level;
+            #{$type}-bottom: $level*$base-space-level;
+        }
+
+        @each $directionKey,$direction in $space-direction {
+            .#{$typeKey}#{$directionKey}-#{$levelKey}{
+                #{$type}-#{$direction}: $level*$base-space-level;
+            }
+        }
+    }
+};
+
+
+
+// 字体大小
+@each $fsKey,$fs in $font-sizes {
+    .fs-#{$fsKey}{
+        font-size: $fs*$base-font-size !important;
+    }
+}
+
+.text-ellipsis{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+
+//flex
+.d-flex{display: flex;}
+.flex-col{flex-direction: column;}
+.flex-1{flex: 1;}
+.flex-grow-1{flex-grow: 1;}
+.flex-wrap{flex-wrap: wrap;}
+
+// justify-content 主轴
+@each $jcKey,$jc in $flex-jc {
+    .jc-#{$jcKey}{
+        justify-content: $jc;
+    }
+};
+
+// align-items 交叉轴
+@each $aiKey,$ai in $flex-ai {
+    .ai-#{$aiKey}{
+        align-items: $ai;
+    }
+};
+
+@each $typeKey,$type in $types {
+    .text-#{$typeKey}{
+        text-align: $type;
+    }
+};
+
+@each $key,$dir in $space-direction {
+    .border-#{$key}{
+        border-#{$dir}: 1px $border-color solid;
+    }
+};
+
+.btn{
+    border: 0;
+    border-radius: 2px;
+}
+.btn-border{
+    border: 1px solid map-get($map: $colors, $key: 'white-2');
+    background-color: map-get($map: $colors, $key: 'white-1');
+}
+
+.sprite-icon {
+    margin: 5px auto;
+	&.sprite-news{
+        background: url('../images/sprite.png') no-repeat 63.546% 15.517%;
+        background-size: 375px 455px;
+        width: 23px;
+	    height: 20px;
+    }
+    &.sprite-story{
+        background: url('../images/sprite.png') no-repeat 90.483% 15.614%;
+        background-size: 375px 455px;
+        width: 23px;
+	    height: 20px;
+    }
+    &.sprite-shop{
+        background: url('../images/sprite.png') no-repeat 36.746% 0.924%;
+        background-size: 375px 455px;
+        width: 19px;
+	    height: 22px;
+    }
+    &.sprite-test{
+        background: url('../images/sprite.png') no-repeat 10.408% 15.517%;
+        background-size: 375px 455px;
+        width: 20px;
+	    height: 20px;
+    }
+    &.sprite-young{
+        background: url('../images/sprite.png') no-repeat 89.733% 1.266%;
+        background-size: 375px 455px;
+        width: 20px;
+	    height: 21px;
+    }
+    
+    &.sprite-extend{
+        background: url('../images/sprite.png') no-repeat 36.467% 15.287%;
+        background-size: 375px 455px;
+        width: 24px;
+	    height: 20px;
+    }
+    &.sprite-area{
+        background: url('../images/sprite.png') no-repeat  63.3% 0.927%;
+        background-size: 375px 455px;
+        width: 24px;
+	    height: 24px;
+    }
+    &.sprite-public{
+        background: url('../images/sprite.png') no-repeat 0 96.207%;
+        background-size: 375px 455px;
+        width: 24px;
+	    height: 20px;
+    }
+
+
+    &.sprite-bbjs{
+        background: url('../images/bbjs.png') no-repeat;
+        background-size: 40px 28px;
+        width: 40px;
+        height: 28px;
+    }
+    &.sprite-djhj{
+        background: url('../images/djhj.png') no-repeat;
+        background-size: 40px 28px;
+        width: 40px;
+        height: 28px;
+    }
+    &.sprite-wxwzt{
+        background: url('../images/wxwzt.png') no-repeat;
+        background-size: 50px 14px;
+        width: 50px;
+        height: 14px;
+        margin-bottom: 19px;
+    }
+    &.sprite-cyhdy{
+        background: url('../images/cyhdy.png') no-repeat;
+        background-size: 30px 30px;
+        width: 30px;
+        height: 30px;
+        margin-top: 3px;
+    }
+    
+}
+
+.nav{
+    display: flex;
+    background: map-get($map: $colors, $key: 'primary');
+    color: map-get($map: $colors, $key: 'white');
+    .nav-item{
+      border-bottom: 3px solid transparent;
+      padding-bottom: 2px;
+      &.active{
+        border-color: map-get($map: $colors, $key: 'white');
+      }  
+    }
+    &.reverse{
+        background: map-get($map: $colors, $key: 'white');
+        color: map-get($map: $colors, $key: 'black');
+        .nav-item{
+            border-bottom: 3px solid transparent;
+            padding-bottom: 2px;
+            &.active{
+                border-color: map-get($map: $colors, $key: 'primary');
+                color: map-get($map: $colors, $key: 'primary');
+            }
+        }
+    }
+}
+
+// 使用注意事项：
+
+/*父元素不能有overflow属性
+ *left、top、right、bottom必须要有一个
+ *仅在父元素内生效，父元素的高度必须大于sticky元素的高度
+ *ios加前缀-webkit-sticky（考虑到兼容问题）*/
+ 
+.top-head{
+    position: sticky;
+    position: -webkit-sticky;
+    z-index: 99;
+    top: 0;
+  
+} 
+
+.line-h{
+    line-height: 21px;  //21px
+}
+
+.badge{
+    display: inline-block;
+    line-height: 1rem;
+    width: 1rem;
+    height: 1rem;
+    // padding: 0 5px;
+    border-radius: 50%;
+    margin: 0 5px;
+    text-align: center;
+    font-size: 0.6rem;
+    color: map-get($map: $colors, $key: 'grey-1');
+}

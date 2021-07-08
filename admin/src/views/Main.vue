@@ -3,7 +3,7 @@
      <el-container style="height: 100vh; border: 1px solid #eee">
   <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
     <!-- 添加路由属性 -->
-    <el-menu router :default-openeds="['1']" active-text-color="#409EFF" unique-opened :default-active="$route.path" >
+    <el-menu router  active-text-color="#409EFF" unique-opened :default-active="$route.path" >
       <el-submenu index="1">
         <template slot="title"><i class="el-icon-message"></i>内容管理</template>
         <el-menu-item-group>
@@ -62,7 +62,7 @@
     </el-header>
     
     <el-main>
-      <router-view></router-view>
+      <router-view :key="$route.path"></router-view>
     </el-main>
   </el-container>
 </el-container>

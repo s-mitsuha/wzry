@@ -8,7 +8,7 @@
     >
       <el-tabs
         type="border-card"
-        value="skill"
+        value="partners"
       >
         <el-tab-pane
           label="基础信息"
@@ -28,11 +28,30 @@
               :action="uploadUrl"
               :headers="setAuthorization()"
               :show-file-list="false"
-              :on-success="afterUpload"
+              :on-success="(res)=> model.avatar = res.url"
             >
               <img
                 v-if="model.avatar"
                 :src="model.avatar"
+                class="avatar"
+              >
+              <i
+                v-else
+                class="el-icon-plus avatar-uploader-icon"
+              ></i>
+            </el-upload>
+          </el-form-item>
+          <el-form-item label="Banner">
+            <el-upload
+              class="avatar-uploader"
+              :action="uploadUrl"
+              :headers="setAuthorization()"
+              :show-file-list="false"
+              :on-success="(res)=>{$set(model,'banner',res.url)}"
+            >
+              <img
+                v-if="model.banner"
+                :src="model.banner"
                 class="avatar"
               >
               <i
@@ -170,6 +189,29 @@
             <el-button type="danger" style="margin: 2rem 6.5rem;" @click="model.skills.splice(i,1)">删除</el-button>
           </el-col>
         </el-tab-pane>
+        <el-tab-pane
+          label="英雄关系"
+          name="partners"
+        >
+          <el-form-item>
+            <el-button
+              type="primary"
+              @click.native.prevent="model.partners.push({hero:{},description:''})"
+            >添加英雄关系</el-button>
+          </el-form-item>      
+          <el-col :md="12" v-for="(item,i) in model.partners" :key="i">
+            <el-form-item label="英雄">
+              <el-select filterable v-model="item.hero">
+                <!-- filtable 可筛选 -->
+                <el-option v-for="item in heroes" :key="item._id" :label="item.name" :value="item._id"> </el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item label="描述">
+              <el-input type="textarea" v-model="item.description"> </el-input>
+            </el-form-item>         
+            <el-button type="danger" style="margin: 2rem 6.5rem;" @click="model.partners.splice(i,1)">删除</el-button>
+          </el-col>
+        </el-tab-pane>
       </el-tabs>
       <el-form-item style="margin-top: 2rem;">
         <el-button
@@ -193,6 +235,7 @@ export default {
       model: {
         name: "",
         avatar: "",
+        banner:"",
         title: "",
         categories: [],
         skin: 0,
@@ -219,9 +262,11 @@ export default {
         usageTip: "",
         battleTip: "",
         teamTip: "",
+        partners: []
       },
       categories: [],
       items: [],
+      heroes: []
     };
   },
   methods: {
@@ -258,13 +303,15 @@ export default {
       const res = await this.$http.get(`/rest/items`);
       this.items = res.data;
     },
-    afterUpload(res) {
-      this.model.avatar = res.url;
-    }
+    async fetchHeroes() {
+      const res = await this.$http.get(`/rest/heroes`);
+      this.heroes = res.data;
+    },
   },
   created() {
     this.fetchCategories();
     this.fetchItems();
+    this.fetchHeroes();
     this.id && this.fetch();
   },
   components: {},

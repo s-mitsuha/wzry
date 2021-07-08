@@ -39,7 +39,7 @@ module.exports = app =>{
             queryOptions.populate = 'categories'
         }
         // setOptions({populate:'parent'})添加条件
-        const  model = await  req.model.find().setOptions(queryOptions).limit(100)
+        const  model = await  req.model.find().setOptions(queryOptions)
 
         res.send( model)
     })

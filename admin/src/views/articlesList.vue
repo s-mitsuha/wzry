@@ -1,6 +1,6 @@
 <template>
   <div content="articles-list">
-    <h1>分类列表</h1>
+    <h1>文章列表</h1>
     <el-table :data="articles">
       <el-table-column
         prop="_id"
